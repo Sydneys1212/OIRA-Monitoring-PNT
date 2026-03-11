@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import smtplib
 import logging
@@ -20,12 +21,24 @@ log = logging.getLogger(__name__)
 URL = "https://www.reginfo.gov/public/do/eAgendaViewRule?pubId=202504&RIN=3060-AM01"
 STATE_FILE = "status_state.json"
 
-FIELDS_OF_INTEREST = ["status", "stage", "action", "rin", "title", "agency"]
+GMAIL_ADDRESS = "sydneyslossberg1212@gmail.com"
+NOTIFY_EMAIL = "investments@woodycreekcp.com"
+
+# Specific labels to extract from the reginfo.gov page (label text -> key name)
+TARGET_LABELS = {
+    "RIN Status":                   "rin_status",
+    "Agenda Stage of Rulemaking":   "agenda_stage",
+    "Priority":                     "priority",
+    "Major":                        "major",
+    "Unfunded Mandates":            "unfunded_mandates",
+    "EO 14192 Designation":         "eo_14192_designation",
+    "Included in the Regulatory Plan": "in_reg_plan",
+}
 
 
 def fetch_page(url: str) -> str:
     log.info(f"Fetching {url}")
-    resp = requests.get(url, timeout=30)
+    resp = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
     resp.raise_for_status()
     log.info(f"Received {len(resp.text)} bytes")
     return resp.text
@@ -33,38 +46,32 @@ def fetch_page(url: str) -> str:
 
 def parse_fields(html: str) -> dict:
     soup = BeautifulSoup(html, "html.parser")
+    full_text = soup.get_text(separator="\n")
     data = {}
 
-    # reginfo.gov renders a table with label/value pairs; collect all th/td pairs
-    for row in soup.find_all("tr"):
-        cells = row.find_all(["th", "td"])
-        if len(cells) >= 2:
-            label = cells[0].get_text(separator=" ", strip=True).lower()
-            value = cells[1].get_text(separator=" ", strip=True)
-            for field in FIELDS_OF_INTEREST:
-                if field in label:
-                    data[field] = value
+    for label, key in TARGET_LABELS.items():
+        # Look for "Label: Value" anywhere in the page text
+        pattern = rf"{re.escape(label)}\s*:\s*(.+)"
+        match = re.search(pattern, full_text)
+        if match:
+            value = match.group(1).strip()
+            # Trim at the next newline or next label-like pattern
+            value = value.split("\n")[0].strip()
+            data[key] = value
 
-    # Also try definition-list style (dt/dd)
-    for dt in soup.find_all("dt"):
-        label = dt.get_text(separator=" ", strip=True).lower()
-        dd = dt.find_next_sibling("dd")
-        if dd:
-            value = dd.get_text(separator=" ", strip=True)
-            for field in FIELDS_OF_INTEREST:
-                if field in label:
-                    data[field] = value
+    # Extract next timetable action separately
+    next_action_match = re.search(
+        r"Next Action\s+Undetermined\s+([\w\s,]+?)(?:\n|$)", full_text
+    )
+    if next_action_match:
+        data["next_action"] = next_action_match.group(1).strip()
+    else:
+        # Simpler fallback
+        match = re.search(r"Next Action[^\n]*\n\s*(.+)", full_text)
+        if match:
+            data["next_action"] = match.group(1).strip()
 
-    # Fallback: look for labelled spans / divs
-    for tag in soup.find_all(["span", "div", "p"]):
-        label = tag.get_text(separator=" ", strip=True).lower()
-        for field in FIELDS_OF_INTEREST:
-            if label.startswith(field + ":") or label.startswith(field + " :"):
-                value = label.split(":", 1)[1].strip()
-                if value:
-                    data.setdefault(field, value)
-
-    log.info(f"Parsed fields: {data}")
+    log.info(f"Parsed fields: {json.dumps(data, indent=2)}")
     return data
 
 
@@ -85,41 +92,49 @@ def save_state(state: dict) -> None:
     log.info(f"State saved to {STATE_FILE}")
 
 
-GMAIL_ADDRESS = "sydneyslossberg1212@gmail.com"
-NOTIFY_EMAIL = "investments@woodycreekcp.com"
-
-
 def send_email(subject: str, body: str) -> None:
-    gmail_address = GMAIL_ADDRESS
-    gmail_password = os.environ["GMAIL_APP_PASSWORD"]
-    notify_email = NOTIFY_EMAIL
+    gmail_password = os.environ.get("GMAIL_APP_PASSWORD", "").strip()
+    if not gmail_password:
+        log.error("GMAIL_APP_PASSWORD env var is not set — skipping email")
+        return
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
-    msg["From"] = gmail_address
-    msg["To"] = notify_email
+    msg["From"] = GMAIL_ADDRESS
+    msg["To"] = NOTIFY_EMAIL
     msg.attach(MIMEText(body, "plain"))
 
-    log.info(f"Sending email to {notify_email} via SSL on port 465")
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(gmail_address, gmail_password)
-        server.sendmail(gmail_address, notify_email, msg.as_string())
-    log.info("Email sent successfully")
+    log.info(f"Connecting to smtp.gmail.com:465 ...")
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(GMAIL_ADDRESS, gmail_password)
+            server.sendmail(GMAIL_ADDRESS, NOTIFY_EMAIL, msg.as_string())
+        log.info(f"Email sent to {NOTIFY_EMAIL}")
+    except smtplib.SMTPAuthenticationError as e:
+        log.error(f"Gmail authentication failed — check GMAIL_APP_PASSWORD: {e}")
+    except Exception as e:
+        log.error(f"Failed to send email: {e}")
 
 
 def build_change_summary(old: dict | None, new: dict) -> str:
-    lines = ["OIRA Rule Status Change Detected", "=" * 40, f"URL: {URL}", ""]
+    lines = [
+        "OIRA Rule Status Change Detected",
+        "=" * 40,
+        f"RIN: 3060-AM01 — Promoting PNT Technologies and Solutions",
+        f"URL: {URL}",
+        "",
+    ]
     if old is None:
-        lines.append("First-time check — current state recorded:")
+        lines.append("First-time check — baseline state recorded:")
         for k, v in new.items():
             lines.append(f"  {k}: {v}")
     else:
         lines.append("Changed fields:")
-        for field in FIELDS_OF_INTEREST:
-            old_val = (old or {}).get(field, "(not present)")
-            new_val = new.get(field, "(not present)")
+        for key in TARGET_LABELS.values():
+            old_val = old.get(key, "(not present)")
+            new_val = new.get(key, "(not present)")
             if old_val != new_val:
-                lines.append(f"  {field}:")
+                lines.append(f"  {key}:")
                 lines.append(f"    Before: {old_val}")
                 lines.append(f"    After:  {new_val}")
         lines.append("")
@@ -138,27 +153,28 @@ def main() -> None:
     state = load_state()
     previous = state.get("last_status")
 
-    changed = current != previous
+    # On first run, save baseline without sending an alert
+    if previous is None:
+        log.info("First run — saving baseline state, no alert sent")
+        changed = False
+    else:
+        changed = current != previous
 
     if changed:
-        log.info("Change detected — preparing alert")
-        subject = "OIRA Rule Status Change: RIN 3060-AM01"
+        log.info("Change detected — sending alert")
+        subject = "OIRA Status Change: RIN 3060-AM01 (PNT)"
         body = build_change_summary(previous, current)
-        try:
-            send_email(subject, body)
-        except Exception as exc:
-            log.error(f"Failed to send email: {exc}")
+        send_email(subject, body)
     else:
         log.info("No change detected")
 
-    history_entry = {
+    state["last_status"] = current
+    state["last_checked"] = now
+    state.setdefault("history", []).append({
         "checked_at": now,
         "changed": changed,
         "state": current,
-    }
-    state["last_status"] = current
-    state["last_checked"] = now
-    state.setdefault("history", []).append(history_entry)
+    })
 
     save_state(state)
 
