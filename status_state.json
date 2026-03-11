@@ -1,13 +1,15 @@
 {
   "last_status": {
-    "rin": "Agenda Stage of Rulemaking: Long-Term Actions",
-    "status": "Agenda Stage of Rulemaking: Long-Term Actions",
-    "stage": "This script search US Code. Set operation value and submit form. View Rule View EO 12866 Meetings Printer-Friendly Version Download RIN Data in XML FCC RIN: 3060-AM01 Publication ID: Spring 2025 Title: \u25cfPromoting the Development of Positioning, Navigation, and Timing Technologies and Solutions, WT Docket No. 25-110 Abstract: The proceeding seeks to build a record on specific actions the Federal Communications Commission can take to help develop complements and alternatives to the Global Positioning System (GPS) with the goal of ensuring robust and reliable Positioning, Navigation, and Timing (PNT) technologies and solutions. Agency: Federal Communications Commission(FCC) Priority: Substantive, Nonsignificant RIN Status: First time published in the Unified Agenda Agenda Stage of Rulemaking: Long-Term Actions Major: No Unfunded Mandates: No EO 14192 Designation: Other CFR Citation: Not Yet Determined\n\t\t            \n\n\t\t            \u00a0\u00a0\n\t            \n\n\t            \n\t            \t\u00a0(To search for a specific CFR, visit the Code of Federal Regulations. ) Legal Authority: 47 U.S.C. 151 47 U.S.C. 152(a) 47 U.S.C. 154(i) 47 U.S.C. 201(b) 47 U.S.C. 251 47 U.S.C. 301 47 U.S.C. 302(e) and 303(g) 47 U.S.C. 332 47 U.S.C. 403 47 U.S.C. 615 to 615c Legal Deadline: None Timetable: Action Date FR Cite ANPRM Comment Period End 05/13/2025 Next Action Undetermined To Be Determined Regulatory Flexibility Analysis Required: No Government Levels Affected: None Federalism: No Included in the Regulatory Plan: No International Impacts: This regulatory action will be likely to have international trade and investment effects, or otherwise be of international interest. RIN Data Printed in the FR: No Agency Contact: Melissa Conway Attorney Advisor, Mobility Division, Wireless Bureau Federal Communications Commission 45 L Street NE, Washington, DC 20554 Phone:202 418-2887 Email:\u00a0melissa.conway@fcc.gov",
-    "action": "To Be Determined",
-    "title": "This script search US Code. Set operation value and submit form. View Rule View EO 12866 Meetings Printer-Friendly Version Download RIN Data in XML FCC RIN: 3060-AM01 Publication ID: Spring 2025 Title: \u25cfPromoting the Development of Positioning, Navigation, and Timing Technologies and Solutions, WT Docket No. 25-110 Abstract: The proceeding seeks to build a record on specific actions the Federal Communications Commission can take to help develop complements and alternatives to the Global Positioning System (GPS) with the goal of ensuring robust and reliable Positioning, Navigation, and Timing (PNT) technologies and solutions. Agency: Federal Communications Commission(FCC) Priority: Substantive, Nonsignificant RIN Status: First time published in the Unified Agenda Agenda Stage of Rulemaking: Long-Term Actions Major: No Unfunded Mandates: No EO 14192 Designation: Other CFR Citation: Not Yet Determined\n\t\t            \n\n\t\t            \u00a0\u00a0\n\t            \n\n\t            \n\t            \t\u00a0(To search for a specific CFR, visit the Code of Federal Regulations. ) Legal Authority: 47 U.S.C. 151 47 U.S.C. 152(a) 47 U.S.C. 154(i) 47 U.S.C. 201(b) 47 U.S.C. 251 47 U.S.C. 301 47 U.S.C. 302(e) and 303(g) 47 U.S.C. 332 47 U.S.C. 403 47 U.S.C. 615 to 615c Legal Deadline: None Timetable: Action Date FR Cite ANPRM Comment Period End 05/13/2025 Next Action Undetermined To Be Determined Regulatory Flexibility Analysis Required: No Government Levels Affected: None Federalism: No Included in the Regulatory Plan: No International Impacts: This regulatory action will be likely to have international trade and investment effects, or otherwise be of international interest. RIN Data Printed in the FR: No Agency Contact: Melissa Conway Attorney Advisor, Mobility Division, Wireless Bureau Federal Communications Commission 45 L Street NE, Washington, DC 20554 Phone:202 418-2887 Email:\u00a0melissa.conway@fcc.gov",
-    "agency": "Priority: Substantive, Nonsignificant"
+    "rin_status": "First time published in the Unified Agenda",
+    "agenda_stage": "Long-Term Actions",
+    "priority": "Substantive, Nonsignificant",
+    "major": "No",
+    "unfunded_mandates": "No",
+    "eo_14192_designation": "Other",
+    "in_reg_plan": "No",
+    "next_action": "To Be Determined"
   },
-  "last_checked": "2026-03-11T18:53:34.140407+00:00",
+  "last_checked": "2026-03-11T18:59:43.481432+00:00",
   "history": [
     {
       "checked_at": "2026-03-11T18:53:34.140407+00:00",
@@ -19,6 +21,20 @@
         "action": "To Be Determined",
         "title": "This script search US Code. Set operation value and submit form. View Rule View EO 12866 Meetings Printer-Friendly Version Download RIN Data in XML FCC RIN: 3060-AM01 Publication ID: Spring 2025 Title: \u25cfPromoting the Development of Positioning, Navigation, and Timing Technologies and Solutions, WT Docket No. 25-110 Abstract: The proceeding seeks to build a record on specific actions the Federal Communications Commission can take to help develop complements and alternatives to the Global Positioning System (GPS) with the goal of ensuring robust and reliable Positioning, Navigation, and Timing (PNT) technologies and solutions. Agency: Federal Communications Commission(FCC) Priority: Substantive, Nonsignificant RIN Status: First time published in the Unified Agenda Agenda Stage of Rulemaking: Long-Term Actions Major: No Unfunded Mandates: No EO 14192 Designation: Other CFR Citation: Not Yet Determined\n\t\t            \n\n\t\t            \u00a0\u00a0\n\t            \n\n\t            \n\t            \t\u00a0(To search for a specific CFR, visit the Code of Federal Regulations. ) Legal Authority: 47 U.S.C. 151 47 U.S.C. 152(a) 47 U.S.C. 154(i) 47 U.S.C. 201(b) 47 U.S.C. 251 47 U.S.C. 301 47 U.S.C. 302(e) and 303(g) 47 U.S.C. 332 47 U.S.C. 403 47 U.S.C. 615 to 615c Legal Deadline: None Timetable: Action Date FR Cite ANPRM Comment Period End 05/13/2025 Next Action Undetermined To Be Determined Regulatory Flexibility Analysis Required: No Government Levels Affected: None Federalism: No Included in the Regulatory Plan: No International Impacts: This regulatory action will be likely to have international trade and investment effects, or otherwise be of international interest. RIN Data Printed in the FR: No Agency Contact: Melissa Conway Attorney Advisor, Mobility Division, Wireless Bureau Federal Communications Commission 45 L Street NE, Washington, DC 20554 Phone:202 418-2887 Email:\u00a0melissa.conway@fcc.gov",
         "agency": "Priority: Substantive, Nonsignificant"
+      }
+    },
+    {
+      "checked_at": "2026-03-11T18:59:43.481432+00:00",
+      "changed": true,
+      "state": {
+        "rin_status": "First time published in the Unified Agenda",
+        "agenda_stage": "Long-Term Actions",
+        "priority": "Substantive, Nonsignificant",
+        "major": "No",
+        "unfunded_mandates": "No",
+        "eo_14192_designation": "Other",
+        "in_reg_plan": "No",
+        "next_action": "To Be Determined"
       }
     }
   ]
