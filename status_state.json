@@ -9,7 +9,7 @@
     "in_reg_plan": "No",
     "next_action": "To Be Determined"
   },
-  "last_checked": "2026-03-21T13:41:25.491060+00:00",
+  "last_checked": "2026-03-21T17:31:08.049372+00:00",
   "history": [
     {
       "checked_at": "2026-03-11T18:53:34.140407+00:00",
@@ -599,6 +599,20 @@
     },
     {
       "checked_at": "2026-03-21T13:41:25.491060+00:00",
+      "changed": false,
+      "state": {
+        "rin_status": "First time published in the Unified Agenda",
+        "agenda_stage": "Long-Term Actions",
+        "priority": "Substantive, Nonsignificant",
+        "major": "No",
+        "unfunded_mandates": "No",
+        "eo_14192_designation": "Other",
+        "in_reg_plan": "No",
+        "next_action": "To Be Determined"
+      }
+    },
+    {
+      "checked_at": "2026-03-21T17:31:08.049372+00:00",
       "changed": false,
       "state": {
         "rin_status": "First time published in the Unified Agenda",
